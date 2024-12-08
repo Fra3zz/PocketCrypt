@@ -1,34 +1,28 @@
 <script>
+    import "bootstrap"
 	let { children } = $props();
 </script>
 
-
-<main>
-    <div>
-        <div>
-            <a href="/keys">Make Keys</a>
-        </div>
-    </div>
-</main>
-
 <style>
-:root {
-  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
-  font-size: 16px;
-  line-height: 24px;
-  font-weight: 400;
-
-  color: #b5b2b2;
-  background-color: #585151;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%;
-}
-
+    @import "bootstrap";
 </style>
-
+  <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
+    <div class="container-fluid">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/">Home</a>
+              </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/keys">Make Keys</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <br>
 
 {@render children()}
