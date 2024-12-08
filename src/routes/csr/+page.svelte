@@ -13,15 +13,17 @@
     let selectedExtendedKeyUsages: string[] = [];
     let sans: string = '';
     let csr: string = '';
+    let isCA: boolean = false;
+    let pathLength: string = '';
   
     const keyUsageOptions: string[] = [
-      'digitalSignature', 'nonRepudiation', 'keyEncipherment', 
-      'dataEncipherment', 'keyAgreement', 'keyCertSign', 
+      'digitalSignature', 'nonRepudiation', 'keyEncipherment',
+      'dataEncipherment', 'keyAgreement', 'keyCertSign',
       'cRLSign', 'encipherOnly', 'decipherOnly'
     ];
   
     const extendedKeyUsageOptions: string[] = [
-      'serverAuth', 'clientAuth', 'codeSigning', 
+      'serverAuth', 'clientAuth', 'codeSigning',
       'emailProtection', 'timeStamping'
     ];
   
@@ -75,6 +77,13 @@
         extensions.push({ name: 'subjectAltName', altNames });
       }
   
+      if (isCA) {
+  const basicConstraints: any = { name: 'basicConstraints', cA: true };
+  if (pathLength) {
+    basicConstraints.pathLenConstraint = parseInt(pathLength, 10);
+  }
+  extensions.push(basicConstraints);
+}
       csrObject.setAttributes([{ name: 'extensionRequest', extensions }]);
   
       csrObject.sign(privateKey);
@@ -142,6 +151,14 @@
       <div>
         <label for="sans">Subject Alternative Names (comma separated):</label>
         <input id="sans" type="text" bind:value={sans} />
+      </div>
+      <div>
+        <label for="isCA">Certificate Authority:</label>
+        <input id="isCA" type="checkbox" bind:checked={isCA} />
+      </div>
+      <div>
+        <label for="pathLength">Path Length Constraint:</label>
+        <input id="pathLength" type="number" min="0" bind:value={pathLength} disabled={!isCA} />
       </div>
       <button type="submit">Generate CSR</button>
     </form>
