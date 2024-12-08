@@ -19,6 +19,12 @@
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="/keys">Make Keys</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/csr">Create CSR</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/decode_csr">Decrypt CSR</a>
+          </li>
         </ul>
       </div>
     </div>
