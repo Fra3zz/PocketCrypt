@@ -25,6 +25,12 @@
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="/decode_csr">Decrypt CSR</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/sign_csr">Sign CSR</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/make_pkcs">Make PKCS#12</a>
+          </li>
         </ul>
       </div>
     </div>
