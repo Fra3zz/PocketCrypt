@@ -31,6 +31,9 @@
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="/make_pkcs">Make PKCS#12</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/pkcs_to_cert">Decode PKCS#12</a>
+          </li>
         </ul>
       </div>
     </div>
