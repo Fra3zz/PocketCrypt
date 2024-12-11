@@ -9,9 +9,21 @@
   let validityStart = '';
   let validityEnd = '';
   let signedCert = '';
+  let errorMessage = ''; // To hold general error messages
+  let dateErrorMessage = ''; // To hold specific date error messages
 
   function signCertificate() {
     try {
+      // Reset error messages
+      errorMessage = '';
+      dateErrorMessage = '';
+
+      // Check if validity dates are provided
+      if (!validityStart || !validityEnd) {
+        dateErrorMessage = 'Both validity start and end dates are required.';
+        return;
+      }
+
       // Convert inputs to forge objects
       const caPrivateKeyForge = forge.pki.privateKeyFromPem(caPrivateKey);
       const csrForge = forge.pki.certificationRequestFromPem(csr);
@@ -45,16 +57,23 @@
         cert.setIssuer(caCertForge.subject.attributes);
       }
 
-      // Add CRL distribution points if provided
-      if (crlUrl) {
-        cert.setExtensions([{
-          name: 'cRLDistributionPoints',
-          altNames: [{
-            type: 6, // URI
-            value: crlUrl
-          }]
-        }]);
+      // Add extensions from CSR
+      const extensionRequest = csrForge.getAttribute({ name: 'extensionRequest' });
+      if (extensionRequest && extensionRequest.extensions) {
+        const csrExtensions = extensionRequest.extensions;
+        cert.setExtensions(csrExtensions);
       }
+
+      // Add CRL distribution points if provided
+      const crlExtension = crlUrl ? [{
+        name: 'cRLDistributionPoints',
+        altNames: [{
+          type: 6, // URI
+          value: crlUrl
+        }]
+      }] : [];
+
+      cert.setExtensions((cert.extensions || []).concat(crlExtension));
 
       // Sign the certificate
       cert.sign(caPrivateKeyForge, forge.md.sha256.create());
@@ -63,7 +82,7 @@
       signedCert = forge.pki.certificateToPem(cert);
     } catch (error) {
       console.error('Error signing certificate:', error);
-      signedCert = 'Error signing certificate. Please check your inputs.';
+      errorMessage = 'Error signing certificate. Please check your inputs.';
     }
   }
 </script>
@@ -102,16 +121,22 @@
   <br />
   <label>
     Validity Start Date:
-    <input type="date" bind:value={validityStart} />
+    <input type="date" bind:value={validityStart} required />
   </label>
   <br />
   <label>
     Validity End Date:
-    <input type="date" bind:value={validityEnd} />
+    <input type="date" bind:value={validityEnd} required />
   </label>
   <br />
   <button on:click={signCertificate}>Sign Certificate</button>
   <br />
+  {#if dateErrorMessage}
+    <div style="color: red;">{dateErrorMessage}</div>
+  {/if}
+  {#if errorMessage}
+    <div style="color: red;">{errorMessage}</div>
+  {/if}
   <h2>Signed Certificate:</h2>
   <pre>{signedCert}</pre>
 </div>
