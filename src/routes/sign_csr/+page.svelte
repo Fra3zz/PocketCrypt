@@ -84,7 +84,7 @@
       cert.setExtensions((cert.extensions || []).concat(crlExtension));
 
       // Sign the certificate
-      cert.sign(caPrivateKeyForge, forge.md.sha256.create());
+      cert.sign(caPrivateKeyForge, forge.sha512.create());
 
       // Convert the certificate to PEM format
       signedCert = forge.pki.certificateToPem(cert);
