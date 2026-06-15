@@ -1,7 +1,7 @@
 # PocketCrypt App
 
 ## What is this?
-One day, I realized the amount of SSL certificate I was having to sign for my PKI. I thoaugh "Is thier a way to simplify this?", absolutly. This is a simple (vary early) SSL certificate managment application. It currenrtly has:
+One day, I realized the amount of SSL certificate I was having to sign for my PKI. I thoaugh "Is their a way to simplify this?", absolutly. This is a simple (vary early) SSL certificate managment application. It currenrtly has:
 
 -   Public and Private RSA key generation (max of 4096 right now)
 -   Certificate Signing Request(CSR) creation
